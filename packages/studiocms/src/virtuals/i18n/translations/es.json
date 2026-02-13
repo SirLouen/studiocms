@@ -5,18 +5,18 @@
       "title": "Página de Inicio de sesión",
       "description": "Página de Inicio de sesión",
       "header": "Inicio de sesión",
-      "sub-header-usernamepasswordoauth": "Ingresa tu usuario y contraseña o inicia sesión con alguna de las opciones de abajo.",
-      "sub-header-usernamepassword": "Ingresa tu usuario y contraseña.",
+      "sub-header-usernamepasswordoauth": "Introduce tu usuario y contraseña o inicia sesión con alguna de las opciones de abajo.",
+      "sub-header-usernamepassword": "Introduce tu usuario y contraseña.",
       "sub-header-oauth": "Inicia sesión usando alguna de las opciones de abajo.",
       "sub-header-noprovider": "No se ha configurado ningún proveedor de inicio de sesión. Póngase en contacto con su administrador.",
       "username-label": "Usuario",
       "password-label": "Contraseña",
       "login-button": "Iniciar sesión",
-      "allow-registration-noaccount": "¿Tienes cuenta?",
+      "allow-registration-noaccount": "¿No tienes cuenta?",
       "allow-registration-register": "¡Registrarse aquí!",
       "forgot-password": "¿Olvidaste la contraseña? Presiona aquí.",
       "forgot-password-title": "Olvidé mi contraseña",
-      "forgot-password-message": "¿Olvidaste la contraseña? Ingresa tu correo electrónico debajo y te mandaremos una liga para restablecerla.",
+      "forgot-password-message": "¿Olvidaste la contraseña? Introduce tu correo electrónico debajo y te mandaremos un enlace para restablecerla.",
       "email-label": "Dirección de correo electrónico",
       "demo-mode-credentials": "Credenciales de modo demo"
     },
@@ -40,9 +40,9 @@
     "@studiocms/auth:logout": {
       "title": "Página de cierre de sesión",
       "description": "Página de cierre de sesión",
-      "header": "",
-      "sub-header": "",
-      "cancel-button-label": ""
+      "header": "Cerrando sesión...",
+      "sub-header": "Por favor espera mientras cerramos tu sesión. O presiona el botón de abajo para cancelar.",
+      "cancel-button-label": "Cancelar"
     },
     "@studiocms/auth:oauth-stack": {
       "or-login-with": "o inicia sesión utilizando"
@@ -52,7 +52,7 @@
       "description": "Panel de control",
       "welcome-title": "Bienvenido",
       "title-button:discord": "Unirse a la comunidad",
-      "title-button:feedback": "Dar retroalimentación",
+      "title-button:feedback": "Ofrecer sugerencias",
       "sub-header": "StudioCMS es un sistema de gestión de contenido gratuito y de código abierto construido desde cero por la comunidad Astro."
     },
     "@studiocms/dashboard:sidebar": {
@@ -68,8 +68,8 @@
       "user-dropdown:view-site": "Ver sitio",
       "user-dropdown:logout": "Cerrar sesión",
       "mailer-configuration-label": "Configuración SMTP",
-      "system-management-label": "",
-      "taxonomy-label": ""
+      "system-management-label": "Gestión del sistema",
+      "taxonomy-label": "Gestión de taxonomías"
     },
     "@studiocms/dashboard:profile": {
       "title": "Perfil de usuario",
@@ -77,7 +77,7 @@
       "header": "Tu perfil",
       "basic-info-header": "Información básica",
       "basic-info-save-button": "Guardar",
-      "basic-info-display-name": "Mostrar nombre",
+      "basic-info-display-name": "Nombre para mostrar",
       "basic-info-email": "Correo electrónico",
       "basic-info-username": "Usuario",
       "basic-info-website": "Sitio web",
@@ -143,23 +143,23 @@
       "smtp-settings": "Ajustes SMTP",
       "test-smtp": "Enviar correo electrónico de prueba",
       "smtp-host": "Host",
-      "smtp-host-placeholder": "smtp.example.mx / 1.1.1.1",
+      "smtp-host-placeholder": "smtp.example.com / 1.1.1.1",
       "smtp-port": "Puerto",
       "smtp-port-placeholder": "587",
       "smtp-secure": "Seguro",
       "smtp-proxy": "Proxy",
-      "smtp-proxy-placeholder": "http://proxy.example.mx",
+      "smtp-proxy-placeholder": "http://proxy.example.com",
       "smtp-tls-reject-unauthorized": "Rechazar TLS no autorizado",
       "smtp-tls-servername": "Nombre del servidor TLS",
-      "smtp-tls-servername-placeholder": "smtp.example.mx",
+      "smtp-tls-servername-placeholder": "smtp.example.com",
       "smtp-user": "Nombre de usuario de autenticación",
-      "smtp-user-placeholder": "no-reply@example.mx",
+      "smtp-user-placeholder": "no-reply@example.com",
       "smtp-password": "Contraseña de autenticación",
       "smtp-password-placeholder": "********",
       "smtp-default-sender": "Remitente predeterminado",
-      "smtp-default-sender-placeholder": "StudioCMS no-reply <no-reply@example.mx>",
+      "smtp-default-sender-placeholder": "StudioCMS no-reply <no-reply@example.com>",
       "test-email": "Dirección de correo electrónico",
-      "test-email-placeholder": "john@example.mx",
+      "test-email-placeholder": "john@example.com",
       "send-test-email": "Enviar correo electrónico de prueba",
       "site-email-settings": "Configuración de correo electrónico del sitio",
       "emailVerification": "Habilitar verificación de correo electrónico para los usuarios",
@@ -225,8 +225,8 @@
       "user-info-email": "Correo electrónico",
       "user-info-username": "Nombre de usuario",
       "user-info-website": "Sitio web",
-      "user-info-created-at": "Creado él",
-      "user-info-updated-at": "Actualizado él",
+      "user-info-created-at": "Creado el",
+      "user-info-updated-at": "Actualizado el",
       "password-reset-button": "Crear enlace de reinicio",
       "password-reset-modal-header": "Enlace de restablecimiento de contraseña",
       "password-reset-modal-desc-1": "Restablecer enlace para el usuario",
@@ -242,14 +242,14 @@
       "api-tokens-no-tokens": "No se encontraron tokens de API.",
       "last-edit-pages-header": "Últimas páginas editadas",
       "last-edit-pages-edited": "Editado",
-      "last-edit-pages-no-edits": "No se ha encontrado ningún historial.",
-      "owner": "",
-      "admin": "",
-      "editor": "",
-      "visitor": "",
-      "unknown": "",
-      "email-verified": "",
-      "email-unverified": ""
+      "last-edit-pages-no-edits": "No se ha encontrado el historial.",
+      "owner": "Propietario",
+      "admin": "Administrador",
+      "editor": "Editor",
+      "visitor": "Visitante",
+      "unknown": "Desconocido",
+      "email-verified": "Verificado",
+      "email-unverified": "No verificado"
     },
     "@studiocms/dashboard:plugin-settings": {
       "title": "Ajustes del complemento",
@@ -276,9 +276,9 @@
       "publish-button": "Publicar",
       "delete-modal-header": "¿Estás seguro de que quieres eliminar este elemento?",
       "delete-modal-warning": "Esta acción no puede ser anulada.",
-      "delete-modal-desc-1": "Ingresa el slug",
+      "delete-modal-desc-1": "Introduce el slug",
       "delete-modal-desc-2": "para confirmar.",
-      "delete-folder-modal-desc-1": "Ingresa el nombre de la carpeta",
+      "delete-folder-modal-desc-1": "Introduce el nombre de la carpeta",
       "delete-folder-modal-desc-2": "para confirmar."
     },
     "@studiocms/dashboard:content-index": {
@@ -324,13 +324,13 @@
       "diff-edited-by-1": "Editado",
       "diff-edited-by-2": "por",
       "diff-no-history": "No se ha encontrado ningún historial.",
-      "true-label": "",
-      "false-label": "",
-      "requires-supported-frontend": "",
-      "select-augments-label": "",
-      "no-augments": "",
-      "content-utils-label": "",
-      "access-component-registry": ""
+      "true-label": "Verdadero",
+      "false-label": "Falso",
+      "requires-supported-frontend": "Requiere un frontend compatible",
+      "select-augments-label": "Aumentos de página",
+      "no-augments": "No hay aumentos disponibles",
+      "content-utils-label": "Herramientas y Utilidades",
+      "access-component-registry": "Registro de componentes de acceso"
     },
     "@studiocms/dashboard:404": {
       "title": "Error 404",
@@ -346,19 +346,19 @@
       "back-button": "Ir al inicio"
     },
     "@studiocms/dashboard:versionCheckModal": {
-      "header-title": "",
-      "current-version": "",
-      "latest-version": "",
-      "last-check": "",
-      "full-changelog": "",
-      "view-on": ""
+      "header-title": "Información de la versión",
+      "current-version": "Versuión actual",
+      "latest-version": "Última versión",
+      "last-check": "Última comprobación",
+      "full-changelog": "Registro de cambios completo",
+      "view-on": "Ver en"
     },
     "@studiocms/dashboard:user-component": {
-      "admin": "",
-      "editor": "",
-      "owner": "",
-      "visitor": "",
-      "unknown": ""
+      "admin": "Administrador",
+      "editor": "Editor",
+      "owner": "Propietario",
+      "visitor": "Visitante",
+      "unknown": "Desconocido"
     },
     "@studiocms/dashboard:profile-notifications": {
       "header-title": "",

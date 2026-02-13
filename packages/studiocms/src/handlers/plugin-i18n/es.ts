@@ -1,22 +1,22 @@
 const en = ({
   overview: {
-    title: false,
-    'total-pages': false,
-    'draft-pages': false,
-    'total-users': false
+    title: 'Resumen',
+    'total-pages': 'Páginas totales',
+    'draft-pages': 'Borradores',
+    'total-users': 'Usuarios totales'
   },
   'recently-updated-pages': {
-    title: false,
-    edited: false,
-    'no-pages-found': false
+    title: 'Páginas actualizadas recientemente',
+    edited: 'Actualizado el:',
+    'no-pages-found': 'No se encontraron páginas actualizadas recientemente.'
   },
   'recently-created-pages': {
-    title: false,
-    created: false,
-    'no-pages-found': false
+    title: 'Páginas creadas recientemente',
+    created: 'Creado el:',
+    'no-pages-found': 'No se encontraron páginas creadas recientemente.'
   },
   'recently-signed-up-users': {
-    title: false
+    title: 'Usuarios registrados recientemente'
   }
 } as const);
 export default en;
