@@ -6,7 +6,7 @@ import Navigation from '../components/Navigation.astro';
 
 const { title: SiteTitle, description: SiteDescription } = Astro.locals.StudioCMS.siteConfig.data;
 
-let htmlDefaultLanguage = 'en';
+let htmlDefaultLanguage = 'en-us';
 
 if (defaultFrontEndConfig) {
 	if (typeof defaultFrontEndConfig === 'object' && defaultFrontEndConfig.htmlDefaultLanguage) {
@@ -29,7 +29,7 @@ const {
 	title,
 	description,
 	heroImage,
-	lang = htmlDefaultLanguage || 'en',
+	lang = htmlDefaultLanguage || 'en-us',
 	siteTitle = SiteTitle,
 	siteDescription = SiteDescription,
 	pageTitleDelimiter = '|',

@@ -61,7 +61,7 @@ describe(parentSuiteName, () => {
 			});
 
 			await step(`Calling useTranslations with key "${key}"`, async () => {
-				const t = useTranslations('en', '@studiocms/auth:login');
+				const t = useTranslations('en-us', '@studiocms/auth:login');
 				// @ts-expect-error dynamic key
 				const result = t(key);
 				expect(result).toBe(expected);
@@ -79,12 +79,12 @@ describe(parentSuiteName, () => {
 			subSuiteName: 'useTranslatedPath tests',
 			tags: [...tags],
 			parameters: {
-				language: 'en',
+				language: 'en-us',
 			},
 		});
 
-		await step('Calling useTranslatedPath with "en"', async () => {
-			const translatePath = useTranslatedPath('en');
+		await step('Calling useTranslatedPath with "en-us"', async () => {
+			const translatePath = useTranslatedPath('en-us');
 			const result = translatePath('/dashboard');
 			expect(result).toBe('/dashboard');
 		});
@@ -92,7 +92,7 @@ describe(parentSuiteName, () => {
 
 	[
 		{
-			url: 'http://localhost/en/dashboard',
+			url: 'http://localhost/en-us/dashboard',
 		},
 		{
 			url: 'http://localhost/dashboard',
@@ -102,7 +102,7 @@ describe(parentSuiteName, () => {
 		},
 	].forEach(({ url }) => {
 		const testName = `getLangFromUrl extracts correct language from URL "${url}"`;
-		const expectedLang = url.includes('/en/') || url === 'http://localhost/dashboard' ? 'en' : 'en';
+		const expectedLang = url.includes('/en-us/') || url === 'http://localhost/dashboard' ? 'en-us' : 'en-us';
 		const tags = [...sharedTags, 'virtual:i18n', 'function:getLangFromUrl'];
 
 		test(testName, async ({ setupAllure, step }) => {
@@ -123,13 +123,13 @@ describe(parentSuiteName, () => {
 
 	[
 		{
-			pathname: '/en/dashboard',
+			pathname: '/en-us/dashboard',
 			referer: undefined,
 			expected: '/dashboard',
 		},
 		{
 			pathname: '/_server-islands',
-			referer: 'http://localhost/en/dashboard',
+			referer: 'http://localhost/en-us/dashboard',
 			expected: '/dashboard',
 		},
 		{
@@ -170,14 +170,14 @@ describe(parentSuiteName, () => {
 			tags: [...tags],
 			parameters: {
 				currentPath: '/dashboard',
-				targetLanguage: 'en',
+				targetLanguage: 'en-us',
 			},
 		});
 
-		await step('Calling switchLanguage to switch to "en"', async () => {
+		await step('Calling switchLanguage to switch to "en-us"', async () => {
 			const Astro = createAstroGlobal('/dashboard');
 			const switcher = switchLanguage(Astro);
-			const result = switcher('en');
+			const result = switcher('en-us');
 			expect(result).toBe('/dashboard');
 		});
 	});
@@ -193,7 +193,7 @@ describe(parentSuiteName, () => {
 		await step('Calling staticPaths', async () => {
 			const paths = staticPaths();
 			expect(paths).toContainEqual({ params: { locale: undefined } });
-			expect(paths).not.toContainEqual({ params: { locale: 'en' } });
+			expect(paths).not.toContainEqual({ params: { locale: 'en-us' } });
 		});
 	});
 });

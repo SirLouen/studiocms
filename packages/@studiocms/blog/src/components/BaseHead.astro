@@ -32,7 +32,7 @@ interface Props {
 
 const canonicalURL = Astro.url;
 
-const { title, description, lang = 'en', image } = Astro.props;
+const { title, description, lang = 'en-us', image } = Astro.props;
 
 const ogImage = getHeroImage(image, Astro);
 

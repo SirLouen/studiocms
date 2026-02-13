@@ -38,13 +38,13 @@ interface LocaleConfig {
 		 *
 		 * This option sets the default language for the StudioCMS application.
 		 *
-		 * It must be one of the available translation keys or 'en' for English.
+		 * It must be one of the available translation keys or 'en-us' for English.
 		 *
 		 * @remarks
-		 * All translations are 2-letter language codes as per ISO 639-1 standard.
+		 * All translations use language-region codes (e.g., 'en-us', 'de-de', 'fr-fr').
 		 * Existing available translations can be found in the `/src/virtuals/i18n/translations/` directory. or on [Crowdin](https://crowdin.com/project/studiocms).
 		 *
-		 * @default 'en'
+		 * @default 'en-us'
 		 */
 		defaultLocale?: string;
 	};
@@ -201,7 +201,7 @@ export const StudioCMSOptionsSchema = z
 								}
 							})
 							.optional()
-							.default('en'),
+							.default('en-us'),
 					})
 					.optional()
 					.default({}),

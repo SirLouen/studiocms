@@ -52,8 +52,8 @@ const availableTranslationFiles = await glob('**/*.json', { cwd: translationsDir
  * Falsy values are filtered out from the resulting array.
  *
  * @example
- * // If availableTranslationFiles = ['en.json', 'fr.json']
- * // availableTranslationFileKeys = ['en', 'fr']
+ * // If availableTranslationFiles = ['en-us.json', 'fr-fr.json']
+ * // availableTranslationFileKeys = ['en-us', 'fr-fr']
  */
 export const availableTranslationFileKeys = availableTranslationFiles
 	.map((file) => posix.normalize(file).replace(/\.json$/, ''))
@@ -103,7 +103,7 @@ function checkThreshold(opt: { count: number; emptyStrings: number }) {
 }
 
 /**
- * Loads and returns the available server-side UI translations, excluding English ('en').
+ * Loads and returns the available server-side UI translations, excluding English ('en-us').
  * For each translation file key, reads the corresponding JSON file, checks its string values,
  * and includes it in the results only if it passes the threshold check.
  * Skips translation files with too many empty strings and logs a warning.
@@ -113,7 +113,7 @@ function checkThreshold(opt: { count: number; emptyStrings: number }) {
 export const availableTranslations: ServerUiTranslations = (() => {
 	const results: ServerUiTranslations = {};
 
-	const translationKeys = availableTranslationFileKeys.filter((key) => key !== 'en');
+	const translationKeys = availableTranslationFileKeys.filter((key) => key !== 'en-us');
 
 	for (const key of translationKeys) {
 		const translation = readJson<StudioCMSTranslationRecord>(`${translationsDir + key}.json`);
@@ -134,7 +134,7 @@ export const availableTranslations: ServerUiTranslations = (() => {
  * Restored Available Translations which includes the default
  * english translation key for usage generating the language flags
  */
-export const availableTranslationsKeys = ['en', ...Object.keys(availableTranslations)];
+export const availableTranslationsKeys = ['en-us', ...Object.keys(availableTranslations)];
 
 /**
  * An array of language flags derived from `availableTranslationsKeys`.
@@ -143,8 +143,8 @@ export const availableTranslationsKeys = ['en', ...Object.keys(availableTranslat
  * using the `translationFlagKeyOverrides`.
  *
  * @example
- * // If availableTranslationsKeys = ['en', 'fr']
- * // langFlags = [{ key: 'en', flag: 'lang-en-us' }, { key: 'fr', flag: 'lang-fr' }]
+ * // If availableTranslationsKeys = ['en-us', 'fr-fr']
+ * // langFlags = [{ key: 'en-us', flag: 'lang-en-us' }, { key: 'fr-fr', flag: 'lang-fr-fr' }]
  */
 export const currentFlags: Array<{ key: string; flag: LanguageFlagIdentifier }> =
 	availableTranslationsKeys.map((key) => {

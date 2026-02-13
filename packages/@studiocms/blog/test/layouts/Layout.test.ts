@@ -26,7 +26,7 @@ describe(parentSuiteName, () => {
 		await allure.step('Verifying rendered HTML structure and content', async (ctx) => {
 			await ctx.parameter('Rendered Output', result);
 
-			expect(result).toMatch(/<html lang="en">/);
+			expect(result).toMatch(/<html lang="en-us">/);
 			expect(result).toMatch(/<head>[\s\S]*<\/head>/);
 			expect(result).toMatch(/<meta charset="utf-8"\/>/);
 			expect(result).toMatch(
@@ -53,7 +53,7 @@ describe(parentSuiteName, () => {
 			expect(result).toMatch(/<meta property="og:title" content="Test Page \| Test Site"\/>/);
 			expect(result).toMatch(/<meta property="og:type" content="website"\/>/);
 			expect(result).toMatch(/<meta property="og:url" content="https:\/\/example.com\/"\/>/);
-			expect(result).toMatch(/<meta property="og:locale" content="en"\/>/);
+			expect(result).toMatch(/<meta property="og:locale" content="en-us"\/>/);
 			expect(result).toMatch(
 				/<meta property="og:description" content="This is a test page - A test site for StudioCMS"\/>/
 			);

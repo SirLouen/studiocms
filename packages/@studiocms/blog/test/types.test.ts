@@ -10,7 +10,7 @@ describe(parentSuiteName, () => {
 		{
 			key: 'htmlDefaultLanguage',
 			expectedType: 'string',
-			expectedDefault: 'en',
+			expectedDefault: 'en-us',
 		},
 		{
 			key: 'favicon',

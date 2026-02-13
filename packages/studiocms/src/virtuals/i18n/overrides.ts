@@ -1,10 +1,8 @@
 import type { LanguageFlagIdentifier } from './config.js';
 
 /**
- * Use this map to set custom keys that are not 2 character flags from:
+ * Use this map to set custom flag keys for locales whose flag icon name
+ * doesn't match the `lang-{locale}` pattern from:
  * https://icon-sets.iconify.design/circle-flags/?icon-filter=lang-&keyword=flag
  */
-export const translationFlagKeyOverrides: Record<string, LanguageFlagIdentifier> = {
-	en: 'lang-en-us',
-	es: 'lang-es-mx',
-} as const;
+export const translationFlagKeyOverrides: Record<string, LanguageFlagIdentifier> = {} as const;

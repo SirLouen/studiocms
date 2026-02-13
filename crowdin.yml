@@ -4,18 +4,29 @@
 
 "preserve_hierarchy": true
 
+"languages_mapping":
+  "locale":
+    "de": "de-de"
+    "es": "es-es"
+    "es-MX": "es-mx"
+    "fr": "fr-fr"
+    "hi": "hi-in"
+    "nl": "nl-nl"
+    "nb": "nb-no"
+    "zh-CN": "zh-cn"
+
 "files":
   [
     {
-      "source": "/packages/studiocms/src/virtuals/i18n/translations/en.json",
-      "translation": "/packages/studiocms/src/virtuals/i18n/translations/%two_letters_code%.json",
+      "source": "/packages/studiocms/src/virtuals/i18n/translations/en-us.json",
+      "translation": "/packages/studiocms/src/virtuals/i18n/translations/%locale%.json",
     },
     {
-      "source": "/packages/studiocms/src/handlers/plugin-i18n/en.ts",
-      "translation": "/packages/studiocms/src/handlers/plugin-i18n/%two_letters_code%.ts",
+      "source": "/packages/studiocms/src/handlers/plugin-i18n/en-us.ts",
+      "translation": "/packages/studiocms/src/handlers/plugin-i18n/%locale%.ts",
     },
     {
-      "source": "/packages/studiocms/src/plugins/analytics/i18n/en.ts",
-      "translation": "/packages/studiocms/src/plugins/analytics/i18n/%two_letters_code%.ts",
+      "source": "/packages/studiocms/src/plugins/analytics/i18n/en-us.ts",
+      "translation": "/packages/studiocms/src/plugins/analytics/i18n/%locale%.ts",
     },
   ]

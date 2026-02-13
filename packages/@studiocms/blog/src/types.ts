@@ -25,9 +25,9 @@ export const FrontEndConfigSchema = z
 	.object({
 		/**
 		 * HTML Default Language - The default language for the HTML tag
-		 * @default 'en'
+		 * @default 'en-us'
 		 */
-		htmlDefaultLanguage: z.string().optional().default('en'),
+		htmlDefaultLanguage: z.string().optional().default('en-us'),
 
 		/**
 		 * HTML Default Header - The default head configuration for the Frontend

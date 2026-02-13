@@ -18,13 +18,13 @@ export interface PluginTranslations {
  * @example
  * {
  *   'plugin1': {
- *     en: {
+ *     'en-us': {
  *       comp1: {
  *         title: 'Comp Title',
  *         'another-key': 'Hello!'
  *       },
  *     },
- *     fr: {
+ *     'fr-fr': {
  *       comp1: { ... }
  *     },
  *   },
@@ -44,13 +44,13 @@ export interface AugmentsJSON {
  *
  * @example
  * {
- *  en: {
+ *  'en-us': {
  *   augments: {
  *    'augment-key': 'Augment Text',
  *    'another-augment': 'More augment text'
  *   }
  *  },
- *  fr: {
+ *  'fr-fr': {
  *   augments: { ... }
  *  }
  * }

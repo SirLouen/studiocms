@@ -32,11 +32,11 @@ export type UiTranslations = typeof uiTranslations;
 export type UiLanguageKeys = keyof UiTranslations;
 
 /**
- * Represents the keys of the UI component translations for the 'en' locale.
+ * Represents the keys of the UI component translations for the 'en-us' locale.
  * This type is derived from the 'translations' property of the 'UiTranslations' interface
- * for the 'en' locale (Source of truth), ensuring that only valid translation keys are used.
+ * for the 'en-us' locale (Source of truth), ensuring that only valid translation keys are used.
  */
-export type UiComponentKeys = keyof UiTranslations['en']['translations'];
+export type UiComponentKeys = keyof UiTranslations['en-us']['translations'];
 
 /**
  * Represents the translation type for a specific UI component key (`T`)
@@ -46,8 +46,8 @@ export type UiComponentKeys = keyof UiTranslations['en']['translations'];
  * @typeParam T - The UI component key, constrained to `UiComponentKeys`.
  *
  * @example
- * // Get the translation type for the 'button' component in 'en' language:
- * type ButtonTranslation = UiTranslationComponent<'en', 'button'>;
+ * // Get the translation type for the 'button' component in 'en-us' language:
+ * type ButtonTranslation = UiTranslationComponent<'en-us', 'button'>;
  */
 type UiTranslationComponent<
 	L extends UiLanguageKeys,
@@ -103,8 +103,8 @@ type TranslationValue = string;
  *
  * // Resulting structure:
  * // {
- * //   en: { submit: "Submit", cancel: "Cancel" },
- * //   es: { submit: "Enviar", cancel: "Cancelar" },
+ * //   'en-us': { submit: "Submit", cancel: "Cancel" },
+ * //   'es-mx': { submit: "Enviar", cancel: "Cancelar" },
  * //   ...
  * // }
  */
