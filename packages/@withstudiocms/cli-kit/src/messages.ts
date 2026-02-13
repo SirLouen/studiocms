@@ -34,7 +34,7 @@ export { _boxen as realBoxen };
  * const formattedTime = dt.format(new Date()); // Returns "02:30 PM"
  * ```
  */
-export const dt = new Intl.DateTimeFormat('en-us', {
+export const dt = new Intl.DateTimeFormat('en-US', {
 	hour: '2-digit',
 	minute: '2-digit',
 });

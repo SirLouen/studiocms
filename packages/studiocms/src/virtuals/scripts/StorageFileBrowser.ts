@@ -218,17 +218,17 @@ class StorageFileBrowser extends HTMLElement {
 				this.loadFiles();
 			}
 		} else {
-			console.warn(`Locale "${locale}" not found, falling back to "en-us"`);
+			console.warn(`Locale "${locale}" not found, falling back to "en-US"`);
 		}
 	}
 
 	/**
-	 * Update locale from localStorage or fallback to 'en-us'
+	 * Update locale from localStorage or fallback to 'en-US'
 	 */
 	private updateLocale() {
 		let savedLocale = localStorage.getItem(this.localI18nStorageKey);
 		if (!savedLocale) {
-			savedLocale = 'en-us';
+			savedLocale = 'en-US';
 			console.warn(`No saved locale found, using fallback lang "${savedLocale}"`);
 		}
 		this.setLocale(savedLocale);
@@ -238,7 +238,7 @@ class StorageFileBrowser extends HTMLElement {
 	 * Get translation for a key
 	 */
 	private t(key: keyof TranslationStrings): string {
-		return this.translations[key] || this.translationMap['en-us'][key] || key;
+		return this.translations[key] || this.translationMap['en-US'][key] || key;
 	}
 
 	private resetEventListeners(): void {
@@ -251,10 +251,10 @@ class StorageFileBrowser extends HTMLElement {
 		// Setup Translations
 		const translationMapAttr = this.getAttr('translation-map', '{}');
 		this.translationMap = JSON.parse(translationMapAttr);
-		this.translations = this.translationMap[this.currentLocale] || this.translationMap['en-us'];
+		this.translations = this.translationMap[this.currentLocale] || this.translationMap['en-US'];
 
 		const savedLocale = localStorage.getItem(this.localI18nStorageKey);
-		this.setLocale(savedLocale || 'en-us');
+		this.setLocale(savedLocale || 'en-US');
 
 		// Get attributes
 		this.triggerId = this.getAttr('trigger-id', '');

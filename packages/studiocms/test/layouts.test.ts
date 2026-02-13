@@ -17,7 +17,7 @@ describe(parentSuiteName, () => {
 		{
 			component: AuthLayout,
 			name: 'AuthLayout',
-			opts: { props: { title: 'Test Title', description: 'Test Description', lang: 'en-us' } },
+			opts: { props: { title: 'Test Title', description: 'Test Description', lang: 'en-US' } },
 		},
 	].forEach(({ component, name, opts }) => {
 		const testName = `${localSuiteName} - ${name} component`;

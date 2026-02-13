@@ -185,7 +185,7 @@ const DashboardConfigSchema = z.object({
 	 *
 	 * ```json
 	 * {
-	 *   "en-us": {
+	 *   "en-US": {
 	 *    "component1": {
 	 *      "title": "Title",
 	 *      "description": "Description"
@@ -195,7 +195,7 @@ const DashboardConfigSchema = z.object({
 	 *      "description": "Description"
 	 *    }
 	 *   },
-	 *   "fr-fr": {
+	 *   "fr-FR": {
 	 *    "component1": {
 	 *      "title": "Titre",
 	 *      "description": "Description"
@@ -285,12 +285,12 @@ const RenderingConfigSchema = z.object({
 	 *
 	 * ```json
 	 * {
-	 *   "en-us": {
+	 *   "en-US": {
 	 *    "augments": {
 	 *      "augment-id": "This is the augment text"
 	 *    }
 	 *   },
-	 *   "fr-fr": {
+	 *   "fr-FR": {
 	 *    "augments": {
 	 *      "augment-id": "Ceci est le texte d'augmentation"
 	 *    }

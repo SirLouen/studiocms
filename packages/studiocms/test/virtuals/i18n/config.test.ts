@@ -15,7 +15,7 @@ describe(parentSuiteName, () => {
 		{
 			object: i18nConfig.baseServerTranslations,
 			toHave: 'displayName',
-			expected: 'English (en-us)',
+			expected: 'English (en-US)',
 		},
 		{
 			object: i18nConfig.baseServerTranslations.translations,
@@ -54,7 +54,7 @@ describe(parentSuiteName, () => {
 		});
 
 		await step('Checking serverUiTranslations properties', async () => {
-			expect(i18nConfig.serverUiTranslations).toHaveProperty('en-us');
+			expect(i18nConfig.serverUiTranslations).toHaveProperty('en-US');
 		});
 	});
 
@@ -65,7 +65,7 @@ describe(parentSuiteName, () => {
 		});
 
 		await step('Checking uiTranslationsAvailable contents', async () => {
-			expect(i18nConfig.uiTranslationsAvailable).toContain('en-us');
+			expect(i18nConfig.uiTranslationsAvailable).toContain('en-US');
 		});
 	});
 
@@ -79,20 +79,20 @@ describe(parentSuiteName, () => {
 		});
 
 		await step('Checking clientUiTranslations contents', async () => {
-			expect(i18nConfig.clientUiTranslations['en-us']).toEqual(
-				i18nConfig.serverUiTranslations['en-us'].translations
+			expect(i18nConfig.clientUiTranslations['en-US']).toEqual(
+				i18nConfig.serverUiTranslations['en-US'].translations
 			);
 		});
 	});
 
-	test('should set defaultLang to "en-us"', async ({ setupAllure, step }) => {
+	test('should set defaultLang to "en-US"', async ({ setupAllure, step }) => {
 		await setupAllure({
 			subSuiteName: 'defaultLang tests',
 			tags: [...sharedTags, 'virtual:i18n', 'config:defaultLang'],
 		});
 
 		await step('Checking defaultLang value', async () => {
-			expect(i18nConfig.defaultLang).toBe('en-us');
+			expect(i18nConfig.defaultLang).toBe('en-US');
 		});
 	});
 
@@ -105,8 +105,8 @@ describe(parentSuiteName, () => {
 		await step('Checking languageSelectorOptions contents', async () => {
 			const options = i18nConfig.languageSelectorOptions;
 			expect(options).toContainEqual({
-				key: 'en-us',
-				displayName: 'English (en-us)',
+				key: 'en-US',
+				displayName: 'English (en-US)',
 				flag: 'lang-en-us',
 			});
 			expect(options.length).toBeGreaterThan(0);

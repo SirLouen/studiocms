@@ -30,7 +30,7 @@ describe(parentSuiteName, () => {
 			expect(result.logLevel).toBe('Info');
 			expect(result.features.injectQuickActionsMenu).toBe(true);
 			expect(result.features.robotsTXT).toBe(true);
-			expect(result.locale.dateLocale).toBe('en-us');
+			expect(result.locale.dateLocale).toBe('en-US');
 			expect(result.locale.dateTimeFormat).toEqual({
 				year: 'numeric',
 				month: 'short',

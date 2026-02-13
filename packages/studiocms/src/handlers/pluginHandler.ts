@@ -85,7 +85,7 @@ export const defaultPlugin: StudioCMSPlugin = {
 						variant: 'default',
 						requiresPermission: 'editor',
 						// biome-ignore lint/style/noNonNullAssertion: this is okay
-						header: { title: t.getComponent('en-us', 'overview')!.title, icon: 'heroicons:bolt' },
+						header: { title: t.getComponent('en-US', 'overview')!.title, icon: 'heroicons:bolt' },
 						body: {
 							html: '<totals></totals>',
 							components: {
@@ -100,7 +100,7 @@ export const defaultPlugin: StudioCMSPlugin = {
 						requiresPermission: 'editor',
 						header: {
 							// biome-ignore lint/style/noNonNullAssertion: this is okay
-							title: t.getComponent('en-us', 'recently-updated-pages')!.title,
+							title: t.getComponent('en-US', 'recently-updated-pages')!.title,
 							icon: 'heroicons:document-arrow-up',
 						},
 						body: {
@@ -117,7 +117,7 @@ export const defaultPlugin: StudioCMSPlugin = {
 						requiresPermission: 'admin',
 						header: {
 							// biome-ignore lint/style/noNonNullAssertion: this is okay
-							title: t.getComponent('en-us', 'recently-signed-up-users')!.title,
+							title: t.getComponent('en-US', 'recently-signed-up-users')!.title,
 							icon: 'heroicons:user-group',
 						},
 						body: {
@@ -134,7 +134,7 @@ export const defaultPlugin: StudioCMSPlugin = {
 						requiresPermission: 'editor',
 						header: {
 							// biome-ignore lint/style/noNonNullAssertion: this is okay
-							title: t.getComponent('en-us', 'recently-created-pages')!.title,
+							title: t.getComponent('en-US', 'recently-created-pages')!.title,
 							icon: 'heroicons:document-plus',
 						},
 						body: {
@@ -856,7 +856,7 @@ export const pluginHandler = defineUtility('astro:config:setup')(
 						if (translations) {
 							pluginsTranslations[convertToSafeString(safeData.identifier)] = translations;
 
-							if (translations['en-us'].augments) {
+							if (translations['en-US'].augments) {
 								const augmentTrans = getAugmentTranslationsForAllLangs(translations);
 
 								for (const [lang, langData] of Object.entries(augmentTrans)) {

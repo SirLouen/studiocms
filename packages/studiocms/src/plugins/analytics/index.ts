@@ -112,7 +112,7 @@ export const studioCMSAnalyticsPlugin = (opts: { driverDialect: DbDialectType; v
 							variant: 'default',
 							header: {
 								// biome-ignore lint/style/noNonNullAssertion: this is okay
-								title: t.getComponent('en-us', 'core-web-vitals')!.title,
+								title: t.getComponent('en-US', 'core-web-vitals')!.title,
 								icon: 'heroicons:chart-pie',
 							},
 							body: {
@@ -130,7 +130,7 @@ export const studioCMSAnalyticsPlugin = (opts: { driverDialect: DbDialectType; v
 								icon: 'heroicons:chart-pie',
 								route: 'analytics',
 								// biome-ignore lint/style/noNonNullAssertion: this is okay
-								description: t.getComponent('en-us', '@page/analytics')!.description,
+								description: t.getComponent('en-US', '@page/analytics')!.description,
 								sidebar: 'single',
 								pageBodyComponent: resolve('./assets/pages/analytics/body.astro'),
 								requiredPermissions: 'admin',

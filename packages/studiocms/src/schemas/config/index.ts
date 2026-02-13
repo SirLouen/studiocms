@@ -17,7 +17,7 @@ interface LocaleConfig {
 	/**
 	 * Date Locale used for formatting dates
 	 *
-	 * @default 'en-us'
+	 * @default 'en-US'
 	 */
 	dateLocale?: string;
 
@@ -38,13 +38,13 @@ interface LocaleConfig {
 		 *
 		 * This option sets the default language for the StudioCMS application.
 		 *
-		 * It must be one of the available translation keys or 'en-us' for English.
+		 * It must be one of the available translation keys or 'en-US' for English.
 		 *
 		 * @remarks
-		 * All translations use language-region codes (e.g., 'en-us', 'de-de', 'fr-fr').
+		 * All translations use language-region codes (e.g., 'en-US', 'de-DE', 'fr-FR').
 		 * Existing available translations can be found in the `/src/virtuals/i18n/translations/` directory. or on [Crowdin](https://crowdin.com/project/studiocms).
 		 *
-		 * @default 'en-us'
+		 * @default 'en-US'
 		 */
 		defaultLocale?: string;
 	};
@@ -179,7 +179,7 @@ export const StudioCMSOptionsSchema = z
 		componentRegistry: z.record(z.string()).optional(),
 		locale: z
 			.object({
-				dateLocale: z.string().optional().default('en-us'),
+				dateLocale: z.string().optional().default('en-US'),
 				dateTimeFormat: z.custom<Intl.DateTimeFormatOptions>().optional().default({
 					year: 'numeric',
 					month: 'short',
@@ -201,7 +201,7 @@ export const StudioCMSOptionsSchema = z
 								}
 							})
 							.optional()
-							.default('en-us'),
+							.default('en-US'),
 					})
 					.optional()
 					.default({}),

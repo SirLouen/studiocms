@@ -16,7 +16,7 @@ const fullConfig: StudioCMSOptions = {
 	plugins: [],
 	verbose: true,
 	locale: {
-		dateLocale: 'en-us',
+		dateLocale: 'en-US',
 	},
 	features: {
 		injectQuickActionsMenu: true,

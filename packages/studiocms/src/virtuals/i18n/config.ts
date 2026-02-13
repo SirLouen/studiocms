@@ -24,7 +24,7 @@ export const defaultLang: UiTranslationKey = config.defaultLocale;
  * - These translations are also converted to a client-friendly format.
  */
 export const baseServerTranslations = (
-	await import('./translations/en-us.json', {
+	await import('./translations/en-US.json', {
 		assert: { type: 'json' },
 	})
 ).default;
@@ -60,8 +60,8 @@ export type UiTranslationKey = string;
  * @example
  * ```typescript
  * const translations: TranslationsJSON = {
- *   'en-us': { greeting: "Hello" },
- *   'fr-fr': { greeting: "Bonjour" }
+ *   'en-US': { greeting: "Hello" },
+ *   'fr-FR': { greeting: "Bonjour" }
  * };
  * ```
  */
@@ -79,8 +79,8 @@ export interface TranslationsJSON {
  * @example
  * ```typescript
  * const components: ComponentsJSON = {
- *   header: { 'en-us': "Header", 'fr-fr': "En-tête" },
- *   footer: { 'en-us': "Footer", 'fr-fr': "Pied de page" }
+ *   header: { 'en-US': "Header", 'fr-FR': "En-tête" },
+ *   footer: { 'en-US': "Footer", 'fr-FR': "Pied de page" }
  * };
  * ```
  */
@@ -130,7 +130,7 @@ export interface LanguageSelectorOption {
  * This constant is typed as `ServerUiTranslations` and marked as `const` for immutability.
  */
 export const serverUiTranslations: ServerUiTranslations = {
-	'en-us': baseServerTranslations,
+	'en-US': baseServerTranslations,
 	...availableTranslations,
 };
 

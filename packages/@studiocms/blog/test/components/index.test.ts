@@ -180,7 +180,7 @@ describe(parentSuiteName, () => {
 			expect(result).toContain('<meta name="twitter:description" content="Test Description"/>');
 			expect(result).toContain('<meta name="generator" content="StudioCMS v0.0.0-test"/>');
 			expect(result).toContain('<meta name="generator" content="Astro');
-			expect(result).toContain('<meta property="og:locale" content="en-us"/>');
+			expect(result).toContain('<meta property="og:locale" content="en-US"/>');
 		});
 	});
 

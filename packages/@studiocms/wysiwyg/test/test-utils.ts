@@ -52,7 +52,7 @@ export const MockAstroLocals = (): App.Locals => {
 					_config_version: '1.0.0',
 				},
 			},
-			defaultLang: 'en-us',
+			defaultLang: 'en-US',
 			latestVersion: {
 				lastCacheUpdate: date,
 				version: '0.0.0-test',

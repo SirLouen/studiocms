@@ -483,13 +483,13 @@ const translations = generateComponentTranslationMap('@studiocms/component-regis
     private noOutput = false;
     private triggerId: string | null = null;
     private translations: ComponentTranslations = {};
-    private currentLang = "en-us";
+    private currentLang = "en-US";
     private localStorageLangKey: string | null = null;
 
     private t(key: keyof TranslationStrings): string {
       return (
         this.translations[this.currentLang]?.[key] ??
-        this.translations["en-us"][key] ?? key
+        this.translations["en-US"][key] ?? key
       );
     }
 
@@ -507,7 +507,7 @@ const translations = generateComponentTranslationMap('@studiocms/component-regis
         return docLang;
       }
       // Default to English
-      return "en-us";
+      return "en-US";
     }
 
     connectedCallback() {
