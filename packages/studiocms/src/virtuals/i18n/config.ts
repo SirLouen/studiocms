@@ -123,7 +123,7 @@ export interface LanguageSelectorOption {
 /**
  * An object containing server-side UI translations for supported locales.
  *
- * - The `en` property provides the base server translations for English.
+ * - The `en-US` property provides the base server translations for English.
  * - Additional locale translations are spread from `nonBaseTranslations`.
  *
  * @remarks
