@@ -93,7 +93,7 @@ describe(parentSuiteName, () => {
 		{
 			schemaName: 'i18nLabelSchema',
 			fn: i18nLabelSchema.parse,
-			data: { en: 'Hello', fr: 'Bonjour' },
+			data: { 'en-US': 'Hello', fr: 'Bonjour' },
 			shouldThrow: false,
 		},
 		{
@@ -106,7 +106,7 @@ describe(parentSuiteName, () => {
 			schemaName: 'DashboardPageSchema',
 			fn: DashboardPageSchema.parse,
 			data: {
-				title: { en: 'Dashboard' },
+				title: { 'en-US': 'Dashboard' },
 				description: 'Main dashboard',
 				route: '/dashboard',
 				pageBodyComponent: 'DashboardBody',
@@ -118,7 +118,7 @@ describe(parentSuiteName, () => {
 			schemaName: 'DashboardPageSchema',
 			fn: DashboardPageSchema.parse,
 			data: {
-				title: { en: 'Dashboard' },
+				title: { 'en-US': 'Dashboard' },
 				description: 'Main dashboard',
 				route: '/dashboard',
 				pageBodyComponent: 'DashboardBody',
@@ -133,7 +133,7 @@ describe(parentSuiteName, () => {
 			data: {
 				user: [
 					{
-						title: { en: 'User' },
+						title: { 'en-US': 'User' },
 						description: 'User dashboard',
 						route: '/user',
 						slug: 'user',
@@ -143,7 +143,7 @@ describe(parentSuiteName, () => {
 				],
 				admin: [
 					{
-						title: { en: 'Admin' },
+						title: { 'en-US': 'Admin' },
 						description: 'Admin dashboard',
 						route: '/admin',
 						slug: 'admin',
@@ -159,7 +159,7 @@ describe(parentSuiteName, () => {
 			schemaName: 'FinalDashboardBaseSchema',
 			fn: FinalDashboardBaseSchema.parse,
 			data: {
-				title: { en: 'Final' },
+				title: { 'en-US': 'Final' },
 				description: 'Final dashboard',
 				route: '/final',
 				slug: 'final',
