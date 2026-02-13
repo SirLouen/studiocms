@@ -53,7 +53,7 @@ describe(parentSuiteName, () => {
 			expect(result).toMatch(/<meta property="og:title" content="Test Page \| Test Site"\/>/);
 			expect(result).toMatch(/<meta property="og:type" content="website"\/>/);
 			expect(result).toMatch(/<meta property="og:url" content="https:\/\/example.com\/"\/>/);
-			expect(result).toMatch(/<meta property="og:locale" content="en-US"\/>/);
+			expect(result).toMatch(/<meta property="og:locale" content="en_US"\/>/);
 			expect(result).toMatch(
 				/<meta property="og:description" content="This is a test page - A test site for StudioCMS"\/>/
 			);

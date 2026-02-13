@@ -114,7 +114,7 @@ export const headDefaults = (
 		{ tag: 'meta', attrs: { property: 'og:title', content: title } },
 		{ tag: 'meta', attrs: { property: 'og:type', content: 'website' } },
 		{ tag: 'meta', attrs: { property: 'og:url', content: canonical?.href } },
-		{ tag: 'meta', attrs: { property: 'og:locale', content: lang } },
+		{ tag: 'meta', attrs: { property: 'og:locale', content: lang.replace('-', '_') } },
 		{ tag: 'meta', attrs: { property: 'og:description', content: description } },
 		{ tag: 'meta', attrs: { property: 'og:site_name', content: title } },
 		// Twitter Tags
