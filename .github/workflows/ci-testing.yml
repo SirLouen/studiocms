@@ -72,6 +72,7 @@ jobs:
       id-token: write # For Codecov upload
     env:
       NODE_OPTIONS: "--max_old_space_size=4096"
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/ca-certificates.crt
     steps:
       - name: Check out code using Git
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
