@@ -1,13 +1,11 @@
 import type * as HttpApi from '@effect/platform/HttpApi';
-import { Api } from '@effect/platform/HttpApi';
 import { Router } from '@effect/platform/HttpApiBuilder';
-import * as HttpLayerRouter from '@effect/platform/HttpLayerRouter';
 import * as HttpServerResponse from '@effect/platform/HttpServerResponse';
 import * as OpenApi from '@effect/platform/OpenApi';
+import type { Layer } from 'effect';
 import * as Effect from 'effect/Effect';
-import * as Layer from 'effect/Layer';
 import * as Html from './_internal/html.ts';
-import * as internal from './_internal/httpApiScalar.js';
+import * as internal from './_internal/httpApiScalar.ts';
 
 /**
  * Scalar theme identifiers.
@@ -96,6 +94,27 @@ export type ScalarConfig = {
 	defaultOpenAllTags?: boolean;
 };
 
+type SourceBase = {
+	title: string;
+	slug?: string | undefined;
+	default?: boolean | undefined;
+	customCss?: string | undefined;
+};
+
+type InlineSource = SourceBase & {
+	content: string;
+};
+
+type ExternalSource = SourceBase & {
+	url: string;
+};
+
+type HttpApiSpec = SourceBase & {
+	httpApi: HttpApi.HttpApi.Any;
+};
+
+type Source = InlineSource | ExternalSource | HttpApiSpec;
+
 /**
  * Generate the HTML component for Scalar API documentation.
  *
@@ -109,26 +128,33 @@ export type ScalarConfig = {
  * @throws Will throw an error if neither `spec` nor `api` is provided.
  */
 export const makeHtmlComponent = (options: {
-	readonly api?: HttpApi.HttpApi.Any;
-	readonly spec?: OpenApi.OpenAPISpec;
-	readonly scalar?: ScalarConfig;
+	readonly sources: Source[];
+	readonly scalar?: ScalarConfig | undefined;
 	readonly starlight?: boolean;
-}) => {
-	const { api, starlight = false } = options;
-	let spec: OpenApi.OpenAPISpec;
-	if (options.spec) {
-		spec = options.spec;
-	} else if (api) {
-		// biome-ignore lint/suspicious/noExplicitAny: It's fine
-		spec = OpenApi.fromApi(api as any);
-	} else {
-		throw new Error('Either spec or api must be provided to makeHtmlComponent');
-	}
+}): string => {
+	const { sources: rawSources, starlight = false } = options;
+
+	const sources = rawSources.map((source) => {
+		if ('content' in source) {
+			return source;
+		}
+		if ('url' in source) {
+			return source;
+		}
+		if ('httpApi' in source) {
+			// biome-ignore lint/suspicious/noExplicitAny: This is fine
+			const spec = OpenApi.fromApi(source.httpApi as any);
+			return {
+				...source,
+				content: JSON.stringify(spec),
+			};
+		}
+		throw new Error('Invalid source provided to Scalar documentation');
+	});
 
 	const scalarConfig = {
 		_integration: 'html',
 		showToolbar: 'never',
-		favicon: 'https://cdn.studiocms.dev/favicon.svg',
 		hideClientButton: true,
 		hiddenClients: {
 			// C
@@ -174,16 +200,13 @@ export const makeHtmlComponent = (options: {
 			// Swift
 			swift: ['nsurlsession'],
 		},
+		sources,
 		...options?.scalar,
 	};
 
-	const baseHtml = `<script id="api-reference" type="application/json">
-      ${Html.escapeJson(spec)}
-    </script>
-    <script>
-      document.getElementById('api-reference').dataset.configuration = JSON.stringify(${Html.escapeJson(scalarConfig)})
-    </script>
-    <script>${internal.javascript}</script>`;
+	const baseHtml = `<div id="app"></div>
+    <script>${internal.javascript}</script>
+    <script>Scalar.createApiReference('#app', ${Html.escapeJson(scalarConfig)})</script>`;
 
 	if (starlight) {
 		return `<div class="not-content">${baseHtml}</div>`;
@@ -192,36 +215,57 @@ export const makeHtmlComponent = (options: {
 	return baseHtml;
 };
 
+/**
+ * Props for the custom header component in Scalar documentation.
+ */
+export type CustomHeaderProps = {
+	title?: {
+		link: string;
+		text: string;
+		img?: string | undefined;
+	};
+	nav?: {
+		link: string;
+		text: string;
+	}[];
+};
+
+/**
+ * Creates an HTTP handler for serving Scalar API documentation, with optional custom header and theming.
+ *
+ * @param options - Configuration options for the Scalar documentation handler.
+ * @returns An Effect that produces an HttpServerResponse containing the Scalar documentation page.
+ */
 const makeHandler = (options: {
-	readonly api: HttpApi.HttpApi.Any;
+	readonly title: string;
+	readonly description?: string | undefined;
+	readonly customHeader?: CustomHeaderProps | undefined;
+	readonly sources: Source[];
 	readonly scalar?: ScalarConfig;
 }) => {
-	const { api, scalar } = options;
-	// biome-ignore lint/suspicious/noExplicitAny: It's fine
-	const spec = OpenApi.fromApi(api as any);
+	const { sources, scalar, title, description } = options;
 
 	const response = HttpServerResponse.html(`<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>${Html.escape(spec.info.title)}</title>
-    ${
-			!spec.info.description
-				? ''
-				: `<meta name="description" content="${Html.escape(spec.info.description)}"/>`
-		}
-    ${
-			!spec.info.description
-				? ''
-				: `<meta name="og:description" content="${Html.escape(spec.info.description)}"/>`
-		}
+    <title>${Html.escape(title)}</title>
+    ${!description ? '' : `<meta name="description" content="${Html.escape(description)}"/>`}
+    ${!description ? '' : `<meta name="og:description" content="${Html.escape(description)}"/>`}
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1" />
-    <style>
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+	<link rel="icon" href="/favicon.ico">
+    ${
+			options.customHeader
+				? `<style>
       :root {
         --scalar-custom-header-height: 50px;
       }
+	  body {
+	    background-color: var(--scalar-background-1, #000);
+	  }
       .custom-header {
         height: var(--scalar-custom-header-height);
         background-color: var(--scalar-background-1);
@@ -243,17 +287,51 @@ const makeHandler = (options: {
       .custom-header a:hover {
         color: var(--scalar-color-2);
       }
-    </style>
+
+	  .custom-header a {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	  }
+
+	  .custom-header svg {
+		display: block;
+		height: 32px;
+		width: 32px;
+	  }
+	
+	  .custom-header i {
+		font-style: italic;
+	  }
+    </style>`
+				: ''
+		}
   </head>
   <body>
+    ${
+			!options.customHeader
+				? ''
+				: `
     <header class="custom-header scalar-app">
-      <b>StudioCMS API Specification</b>
-      <nav>
-        <a href="https://studiocms.dev" target="_blank" rel="noopener noreferrer">StudioCMS Website</a>
-        <a href="https://chat.studiocms.dev" target="_blank" rel="noopener noreferrer">Discord</a>
-      </nav>
+      ${
+				!options.customHeader.title
+					? ''
+					: `<a href="${Html.escape(options.customHeader.title.link)}" style="text-decoration: none; color: inherit;">
+          ${!options.customHeader.title.img ? '' : `<img src="${Html.escape(options.customHeader.title.img)}" alt="${Html.escape(options.customHeader.title.text)} Logo" height="32" />`}
+          <span>${Html.escape(options.customHeader.title.text)}</span>
+        </a>`
+			}
+      ${
+				!options.customHeader.nav
+					? ''
+					: `<nav>
+          ${options.customHeader.nav.map((link) => `<a href="${Html.escape(link.link)}" target="_blank" rel="noopener noreferrer">${Html.escape(link.text)}</a>`).join('')}
+        </nav>`
+			}
     </header>
-    ${makeHtmlComponent({ spec, scalar })}
+    `
+		}
+    ${makeHtmlComponent({ scalar, sources })}
   </body>
 </html>`);
 
@@ -267,43 +345,17 @@ const makeHandler = (options: {
  * @param options.path - The path where the documentation will be served. Defaults to `/docs`.
  * @param options.scalar - Configuration options for Scalar.
  */
-export const layer = (options?: {
+export const layer = (options: {
+	readonly title: string;
+	readonly description?: string | undefined;
+	readonly sources: Source[];
+	readonly customHeader?: CustomHeaderProps | undefined;
 	readonly path?: `/${string}` | undefined;
 	readonly scalar?: ScalarConfig;
-}): Layer.Layer<never, never, Api> =>
+}): Layer.Layer<never, never, never> =>
 	Router.use(
 		Effect.fnUntraced(function* (router) {
-			const { api } = yield* Api;
-			const handler = makeHandler({
-				...options,
-				api,
-			});
+			const handler = makeHandler(options);
 			yield* router.get(options?.path ?? '/docs', handler);
 		})
 	);
-
-/**
- * Create a Layer that serves the API documentation using Scalar
- * at the specified path using HttpLayerRouter.
- *
- * @param options - Configuration options for the Scalar documentation.
- * @param options.api - The API specification to document.
- * @param options.path - The path where the documentation will be served.
- * @param options.scalar - Configuration options for Scalar.
- */
-export const layerHttpLayerRouter: (options: {
-	readonly api: HttpApi.HttpApi.Any;
-	readonly path: `/${string}`;
-	readonly scalar?: ScalarConfig;
-}) => Layer.Layer<never, never, HttpLayerRouter.HttpRouter> = Effect.fnUntraced(
-	function* (options: {
-		readonly api: HttpApi.HttpApi.Any;
-		readonly path: `/${string}`;
-		readonly scalar?: ScalarConfig;
-	}) {
-		const router = yield* HttpLayerRouter.HttpRouter;
-		const handler = makeHandler(options);
-		yield* router.add('GET', options.path, handler);
-	},
-	Layer.effectDiscard
-);

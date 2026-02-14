@@ -1,11 +1,21 @@
-import type { BinaryLike, ScryptOptions } from 'node:crypto';
-import {
-	Scrypt as EffectifyScrypt,
-	ScryptConfigOptions as EffectifyScryptConfigOptions,
-} from 'effectify/scrypt';
-import { Brand, Context, Effect, Layer } from './effect.js';
+import { type BinaryLike, type ScryptOptions, scrypt } from 'node:crypto';
+import * as Brand from 'effect/Brand';
+import * as Context from 'effect/Context';
+import * as Data from 'effect/Data';
+import * as Effect from 'effect/Effect';
+import * as Layer from 'effect/Layer';
 
-export { ScryptError } from 'effectify/scrypt';
+/**
+ * Represents an error specific to the Scrypt operation.
+ *
+ * This class extends a tagged error to provide additional context
+ * about errors that occur during Scrypt-related operations.
+ *
+ * @extends Data.TaggedError
+ */
+export class ScryptError extends Data.TaggedError('effectify/scrypt.ScryptError')<{
+	error: unknown;
+}> {}
 
 /**
  * Configuration options for the Scrypt key derivation function.
@@ -18,10 +28,9 @@ export { ScryptError } from 'effectify/scrypt';
  * @property options - Additional options for the Scrypt algorithm.
  */
 export type ScryptConfigOptions = {
-	encryptionKey: BinaryLike;
 	keylen: number;
 	options: ScryptOptions;
-} & Brand.Brand<'ScryptConfigOptions'>;
+} & Brand.Brand<'effectify/scrypt.ScryptConfigOptions'>;
 
 /**
  * Represents the configuration options for the Scrypt algorithm.
@@ -34,7 +43,6 @@ export type ScryptConfigOptions = {
  * @example
  * ```typescript
  * const config: ScryptConfigOptions = {
- *   encryptionKey: 'my-secret-key',
  *   keylen: 64,
  *   options: { N: 16384, r: 8, p: 1 },
  * };
@@ -51,7 +59,10 @@ export const ScryptConfigOptions = Brand.nominal<ScryptConfigOptions>();
  * @extends Context.Tag
  * @template {ScryptConfig} - The type of the context.
  */
-export class ScryptConfig extends Context.Tag('ScryptConfig')<ScryptConfig, ScryptConfigOptions>() {
+export class ScryptConfig extends Context.Tag('effectify/scrypt.ScryptConfig')<
+	ScryptConfig,
+	ScryptConfigOptions
+>() {
 	static Make = (opts: ScryptConfigOptions) => Layer.succeed(this, ScryptConfigOptions(opts));
 }
 
@@ -64,29 +75,25 @@ export class ScryptConfig extends Context.Tag('ScryptConfig')<ScryptConfig, Scry
  * @extends Effect.Service
  * @template {Scrypt} - The type of the service.
  */
-export class Scrypt extends Effect.Service<Scrypt>()('Scrypt', {
+export class Scrypt extends Effect.Service<Scrypt>()('effectify/scrypt.Scrypt', {
 	effect: Effect.gen(function* () {
-		// Process Configs
-		const StudioCMSConfig = yield* ScryptConfig;
-		const effectifyConfig = EffectifyScryptConfigOptions(StudioCMSConfig);
+		const { keylen, options } = yield* ScryptConfig;
 
-		// Get Live Scrypt Effect
-		const LiveService = EffectifyScrypt.makeLive(effectifyConfig);
-
-		// Create Scrypt Effect
-		const _scrypt = yield* EffectifyScrypt.pipe(Effect.provide(LiveService));
-
-		/**
-		 * Derives a key from the given password using the Scrypt algorithm.
-		 *
-		 * @param password - The input password as a binary-like value.
-		 * @returns An Effect that, when executed, will produce the derived key as a Buffer.
-		 */
-		const run = (password: BinaryLike) => _scrypt(password, StudioCMSConfig.encryptionKey);
-
-		return {
-			run,
-		};
+		return Effect.fn('effectify/scrypt.Scrypt.run')((password: BinaryLike, salt: BinaryLike) =>
+			Effect.async<Buffer, ScryptError>((resume) => {
+				try {
+					scrypt(password, salt, keylen, options, (error, derivedKey) => {
+						if (error) {
+							resume(Effect.fail(new ScryptError({ error })));
+						} else {
+							resume(Effect.succeed(derivedKey));
+						}
+					});
+				} catch (error) {
+					resume(Effect.fail(new ScryptError({ error })));
+				}
+			})
+		);
 	}),
 }) {
 	/**

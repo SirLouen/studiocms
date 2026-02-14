@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: allowed in tests */
 import * as allure from 'allure-js-commons';
+import { Effect, Exit, Layer } from 'effect';
 import { beforeEach, describe, expect, test } from 'vitest';
-import { Effect, Exit, Layer } from '../src/effect.js';
 import { Scrypt, ScryptConfig, ScryptConfigOptions, ScryptError } from '../src/scrypt.js';
 import { parentSuiteName, sharedTags } from './test-utils.js';
 
@@ -15,7 +15,6 @@ describe(parentSuiteName, () => {
 
 	beforeEach(() => {
 		defaultConfig = ScryptConfigOptions({
-			encryptionKey: 'test-salt-key',
 			keylen: 64,
 			options: {
 				N: 16384,
@@ -57,27 +56,12 @@ describe(parentSuiteName, () => {
 		{
 			name: 'Scrypt - ScryptConfigOptions should handle valid options',
 			config: ScryptConfigOptions({
-				encryptionKey: 'my-secret-key',
 				keylen: 32,
 				options: { N: 1024, r: 4, p: 1 },
 			}),
 			expect: {
-				encryptionKey: 'my-secret-key',
 				keylen: 32,
 				options: { N: 1024, r: 4, p: 1 },
-			},
-		},
-		{
-			name: 'Scrypt - ScryptConfigOptions should accept Buffer as encryptionKey',
-			config: ScryptConfigOptions({
-				encryptionKey: Buffer.from('buffer-key', 'utf8'),
-				keylen: 48,
-				options: { N: 2048, r: 6, p: 2 },
-			}),
-			expect: {
-				encryptionKey: Buffer.from('buffer-key', 'utf8'),
-				keylen: 48,
-				options: { N: 2048, r: 6, p: 2 },
 			},
 		},
 	].forEach(({ name, config, expect: expected }) => {
@@ -88,16 +72,9 @@ describe(parentSuiteName, () => {
 			await allure.tags(...sharedTags);
 
 			await allure.step('Verify ScryptConfigOptions structure', async (ctx) => {
-				await ctx.parameter(
-					'encryptionKey',
-					Buffer.isBuffer(config.encryptionKey)
-						? config.encryptionKey.toString('utf8')
-						: config.encryptionKey.toString()
-				);
 				await ctx.parameter('keylen', String(config.keylen));
 				await ctx.parameter('options', JSON.stringify(config.options));
 
-				expect(config.encryptionKey).toEqual(expected.encryptionKey);
 				expect(config.keylen).toBe(expected.keylen);
 				expect(config.options).toEqual(expected.options);
 			});
@@ -127,11 +104,9 @@ describe(parentSuiteName, () => {
 
 			const result = await Effect.runPromise(Effect.provide(program, configLayer));
 
-			await ctx.parameter('Retrieved encryptionKey', String(result.encryptionKey));
 			await ctx.parameter('Retrieved keylen', String(result.keylen));
 			await ctx.parameter('Retrieved options', JSON.stringify(result.options));
 
-			expect(result.encryptionKey).toBe(defaultConfig.encryptionKey);
 			expect(result.keylen).toBe(defaultConfig.keylen);
 			expect(result.options).toEqual(defaultConfig.options);
 		});
@@ -156,11 +131,9 @@ describe(parentSuiteName, () => {
 
 			const result = await Effect.runPromise(Effect.provide(program, configLayer));
 
-			await ctx.parameter('Retrieved encryptionKey', String(result.encryptionKey));
 			await ctx.parameter('Retrieved keylen', String(result.keylen));
 			await ctx.parameter('Retrieved options', JSON.stringify(result.options));
 
-			expect(result.encryptionKey).toBe(defaultConfig.encryptionKey);
 			expect(result.keylen).toBe(defaultConfig.keylen);
 			expect(result.options).toEqual(defaultConfig.options);
 		});
@@ -173,7 +146,6 @@ describe(parentSuiteName, () => {
 		await allure.tags(...sharedTags);
 
 		const config = ScryptConfigOptions({
-			encryptionKey: Buffer.from('application-salt', 'utf8'),
 			keylen: 64,
 			options: { N: 2048, r: 8, p: 1 },
 		});
@@ -183,9 +155,9 @@ describe(parentSuiteName, () => {
 		const application = Effect.gen(function* () {
 			const scrypt = yield* Scrypt;
 			const userKeys = yield* Effect.all([
-				scrypt.run('user1-password'),
-				scrypt.run('user2-password'),
-				scrypt.run('user3-password'),
+				scrypt('user1-password', 'salt1'),
+				scrypt('user2-password', 'salt2'),
+				scrypt('user3-password', 'salt3'),
 			]);
 			return userKeys;
 		});
@@ -216,7 +188,7 @@ describe(parentSuiteName, () => {
 
 		const program = Effect.gen(function* () {
 			const service = yield* Scrypt;
-			const derivedKey = yield* service.run(testPassword);
+			const derivedKey = yield* service(testPassword, 'test-salt');
 			return derivedKey;
 		});
 
@@ -238,8 +210,8 @@ describe(parentSuiteName, () => {
 
 		const program = Effect.gen(function* () {
 			const service = yield* Scrypt;
-			const key1 = yield* service.run(testPassword);
-			const key2 = yield* service.run(testPassword);
+			const key1 = yield* service(testPassword, 'test-salt');
+			const key2 = yield* service(testPassword, 'test-salt');
 			return { key1, key2 };
 		});
 
@@ -264,8 +236,8 @@ describe(parentSuiteName, () => {
 
 		const program = Effect.gen(function* () {
 			const service = yield* Scrypt;
-			const key1 = yield* service.run('password1');
-			const key2 = yield* service.run('password2');
+			const key1 = yield* service('password1', 'salt1');
+			const key2 = yield* service('password2', 'salt2');
 			return { key1, key2 };
 		});
 
@@ -293,8 +265,8 @@ describe(parentSuiteName, () => {
 
 		const program = Effect.gen(function* () {
 			const service = yield* Scrypt;
-			const keyFromBuffer = yield* service.run(passwordBuffer);
-			const keyFromArray = yield* service.run(passwordArray);
+			const keyFromBuffer = yield* service(passwordBuffer, 'test-salt');
+			const keyFromArray = yield* service(passwordArray, 'test-salt');
 			return { keyFromBuffer, keyFromArray };
 		});
 
@@ -321,7 +293,6 @@ describe(parentSuiteName, () => {
 		await allure.tags(...sharedTags);
 
 		const invalidConfig = ScryptConfigOptions({
-			encryptionKey: 'test-salt',
 			keylen: 64,
 			options: {
 				N: 15,
@@ -335,7 +306,7 @@ describe(parentSuiteName, () => {
 
 		const program = Effect.gen(function* () {
 			const service = yield* Scrypt;
-			return yield* service.run(testPassword);
+			return yield* service(testPassword, 'test-salt');
 		});
 
 		await allure.step('Run Scrypt with Invalid Config and Verify Failure', async (ctx) => {
@@ -361,7 +332,6 @@ describe(parentSuiteName, () => {
 			await allure.tags(...sharedTags);
 
 			const config = ScryptConfigOptions({
-				encryptionKey: 'test-salt',
 				keylen,
 				options: { N: 1024, r: 4, p: 1 },
 			});
@@ -371,7 +341,7 @@ describe(parentSuiteName, () => {
 
 			const program = Effect.gen(function* () {
 				const service = yield* Scrypt;
-				return yield* service.run(testPassword);
+				return yield* service(testPassword, 'test-salt');
 			});
 
 			await allure.step(`Derive Key with keylen ${keylen} and Verify`, async (ctx) => {
@@ -397,7 +367,6 @@ describe(parentSuiteName, () => {
 			await allure.tags(...sharedTags);
 
 			const config = ScryptConfigOptions({
-				encryptionKey: 'test-salt',
 				keylen: 32,
 				options,
 			});
@@ -407,7 +376,7 @@ describe(parentSuiteName, () => {
 
 			const program = Effect.gen(function* () {
 				const service = yield* Scrypt;
-				return yield* service.run(testPassword);
+				return yield* service(testPassword, 'test-salt');
 			});
 
 			await allure.step(
